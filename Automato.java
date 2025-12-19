@@ -7,12 +7,12 @@ public class Automato{
     private List<Estado> estadosFinais;
     private List<Transicao> listaTransicao;
 
-
-
-
-
-
     
+
+
+
+
+
 
     public void separaEstados(List<Estado> e) {
         for(Estado estado: e) {

@@ -1,6 +1,5 @@
 
 import java.util.List;
-
 public class Estado{
 
     private int estado;
