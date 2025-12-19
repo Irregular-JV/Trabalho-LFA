@@ -2,10 +2,10 @@ public class Transicao{
 
     private Estado origem;
     private Estado destino;
-    private String simbolo;
+    private char simbolo;
 
 
-    public  Transicao(Estado origem, Estado destino, String simbolo) {
+    public  Transicao(Estado origem, Estado destino, char simbolo) {
         this.origem = origem;
         this.destino = destino;
         this.simbolo = simbolo;
@@ -19,7 +19,7 @@ public class Transicao{
         return destino;
     }
 
-    public String getSimbolo() {
+    public char getSimbolo() {
         return simbolo;
     }
 
@@ -31,7 +31,7 @@ public class Transicao{
         destino = novo;
     }
 
-    public void setSimbolo(String smb) {
+    public void setSimbolo(char smb) {
         simbolo = smb;
     }
 }
