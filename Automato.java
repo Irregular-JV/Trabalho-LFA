@@ -51,8 +51,33 @@ public class Automato {
         }
     }
 
-    // Ajeitar de noite (passo pra João ver isso)
     public boolean aceitaPalavra (String palavra){
+        List<Estado> estadosAtuais = new ArrayList<>();
+
+        estadosAtuais.add(this.inicial);
+        estadosAtuais.addAll(this.inicial.getListaFecho());
+
+        for(int i = 0; i < palavra.length(); i++){
+            Character letra = palavra.charAt(i);
+            List<Estado> proximosEstados = new ArrayList<>();
+
+            for(Estado e : estadosAtuais){
+                for(Transicao t : listaTransicao){
+                    if(t.getEstadoOrigem().equals(e) && t.getSimbolo() == letra){
+                        Estado destino = t.getEstadoDestino();
+                        proximosEstados.add(destino);
+                        proximosEstados.addAll(destino.getListaFecho());
+                    }
+                }
+            }
+            estadosAtuais = proximosEstados;
+            if(estadosAtuais.size() == 0) return false;
+        }
+
+        for(Estado estado : estadosAtuais){
+            if(estado.getEstadoFinal() == true) return true;
+        }
+
         return false;
     }
 

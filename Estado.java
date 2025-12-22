@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.List;
 public class Estado{
 
@@ -11,6 +12,7 @@ public class Estado{
         this.estado = estado;
         this.estadoFinal = estadoFinal;
         this.estadoInicial = estadoInicial;
+        this.fechoVazio = new ArrayList<>();
     }
 
     public int getEstado() {
@@ -41,7 +43,7 @@ public class Estado{
         fechoVazio.add(e);
     }
 
-    public List getListaFecho() {
+    public List<Estado> getListaFecho() {
         return fechoVazio;
     }
 }
