@@ -1,7 +1,8 @@
-
 import java.util.ArrayList;
 import java.util.List;
-public class Estado{
+import java.util.Objects;
+
+public class Estado {
 
     private int estado;
     private boolean estadoFinal;
@@ -16,7 +17,7 @@ public class Estado{
     }
 
     public int getEstado() {
-        return  estado;
+        return estado;
     }
 
     public boolean getEstadoFinal() {
@@ -31,12 +32,12 @@ public class Estado{
         this.estado = novoEstado;
     }
 
-    public void setEstadoFinal (boolean flag) {
+    public void setEstadoFinal(boolean flag) {
         this.estadoFinal = flag;
     }
 
-    public void setEstadoInicial(boolean b) {
-        this.estadoInicial = b;
+    public void setEstadoInicial(boolean flag) {
+        this.estadoInicial = flag;
     }
 
     public void setAdicionaFecho(Estado e) {
@@ -45,5 +46,23 @@ public class Estado{
 
     public List<Estado> getListaFecho() {
         return fechoVazio;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(estado);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Estado)) return false;
+        Estado estado1 = (Estado) o;
+        return estado == estado1.estado;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(estado);
     }
 }

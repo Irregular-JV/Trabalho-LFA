@@ -1,15 +1,19 @@
-
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Automato {
 
     private Estado inicial;
     private List<Estado> estadosFinais;
     private List<Transicao> listaTransicao;
+    private List<Estado> listaEstados;
 
     public Automato(List<Transicao> listaTransicao, List<Estado> listaEstados) {
         this.listaTransicao = listaTransicao;
+        this.listaEstados = listaEstados;
+        this.estadosFinais = new ArrayList<>();
         separaEstados(listaEstados);
     }
 
@@ -25,16 +29,13 @@ public class Automato {
     }
 
     public void calculaFechoVazio() {
-        for (Transicao transicao : this.listaTransicao) {
-            if (!transicao.getEstadoOrigem().getListaFecho().contains(transicao.getEstadoOrigem())) {
-                transicao.getEstadoOrigem().setAdicionaFecho(transicao.getEstadoOrigem());
-            }
-            if (!transicao.getEstadoDestino().getListaFecho().contains(transicao.getEstadoDestino())) {
-                transicao.getEstadoDestino().setAdicionaFecho(transicao.getEstadoDestino());
+        for (Estado estado : listaEstados) {
+            if (!estado.getListaFecho().contains(estado)) {
+                estado.setAdicionaFecho(estado);
             }
         }
-        for (Transicao transicao : this.listaTransicao) {
-            Estado estado = transicao.getEstadoOrigem();
+
+        for (Estado estado : listaEstados) {
             calculaFechoVazioRec(estado, estado);
         }
     }
@@ -51,57 +52,49 @@ public class Automato {
         }
     }
 
-    public boolean aceitaPalavra (String palavra){
-        List<Estado> estadosAtuais = new ArrayList<>();
+    public boolean aceitaPalavra(String palavra) {
+        Set<Estado> estadosAtuais = new LinkedHashSet<>();
 
-        estadosAtuais.add(this.inicial);
         estadosAtuais.addAll(this.inicial.getListaFecho());
 
-        for(int i = 0; i < palavra.length(); i++){
-            Character letra = palavra.charAt(i);
-            List<Estado> proximosEstados = new ArrayList<>();
+        for (int i = 0; i < palavra.length(); i++) {
+            char letra = palavra.charAt(i);
 
-            for(Estado e : estadosAtuais){
-                for(Transicao t : listaTransicao){
-                    if(t.getEstadoOrigem().equals(e) && t.getSimbolo() == letra){
+            Set<Estado> proximosEstados = new LinkedHashSet<>();
+
+            for (Estado e : estadosAtuais) {
+                for (Transicao t : listaTransicao) {
+                    if (t.getEstadoOrigem().equals(e) && t.getSimbolo() == letra) {
                         Estado destino = t.getEstadoDestino();
-                        proximosEstados.add(destino);
                         proximosEstados.addAll(destino.getListaFecho());
                     }
                 }
             }
+
             estadosAtuais = proximosEstados;
-            if(estadosAtuais.size() == 0) return false;
+            if (estadosAtuais.isEmpty()) return false;
         }
 
-        for(Estado estado : estadosAtuais){
-            if(estado.getEstadoFinal() == true) return true;
+        for (Estado estado : estadosAtuais) {
+            if (estado.getEstadoFinal()) return true;
         }
 
         return false;
     }
 
-    public Estado getInicial () {
+    public Estado getInicial() {
         return inicial;
     }
 
-    public void setInicial (Estado inicial){
-        this.inicial = inicial;
-    }
-
-    public List<Estado> getEstadosFinais () {
+    public List<Estado> getEstadosFinais() {
         return estadosFinais;
     }
 
-    public void setEstadosFinais (List < Estado > estadosFinais) {
-        this.estadosFinais = estadosFinais;
-    }
-
-    public List<Transicao> getListaTransicao () {
+    public List<Transicao> getListaTransicao() {
         return listaTransicao;
     }
 
-    public void setListaTransicao (List < Transicao > listaTransicao) {
-        this.listaTransicao = listaTransicao;
+    public List<Estado> getListaEstados() {
+        return listaEstados;
     }
 }
